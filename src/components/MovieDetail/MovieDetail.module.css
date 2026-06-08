@@ -1,0 +1,57 @@
+.layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 32px;
+  padding: 24px 40px;
+}
+
+.posterWrapper {
+  width: 180px;
+}
+
+.poster {
+  width: 180px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metaText {
+  font-size: 13px;
+  color: #888888;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratingNum {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.ratingLabel {
+  font-size: 13px;
+  color: #888888;
+}
+
+.description {
+  font-size: 14px;
+  color: #555555;
+  line-height: 1.7;
+  margin: 0;
+}

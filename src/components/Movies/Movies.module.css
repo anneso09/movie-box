@@ -1,0 +1,33 @@
+.section {
+  margin: 80px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.addBtn {
+  background: #171717;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}

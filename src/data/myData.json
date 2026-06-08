@@ -1,0 +1,63 @@
+{
+  "title": "Summer Blockbuster Collection",
+  "description_short": "A curated list of the most anticipated sci-fi and action cinema classics.",
+  "img": "/images/heroImg.jpg",
+  "isPromoted": true,
+  "movies": [
+    {
+      "slug": "movie_1",
+      "title": "Interstellar",
+      "description_short": "A team of explorers travel through a wormhole in space.",
+      "description_long": "When Earth becomes uninhabitable, a team of astronauts led by Cooper ventures through a wormhole near Saturn in search of a new home for humanity. Facing extreme time dilation, black holes, and the limits of human endurance, Cooper must choose between saving mankind and returning to his daughter Murph, who he promised he would come back to.",
+      "rating": "8.7",
+      "type": "Sci-Fi",
+      "img": "/images/interstellar.jpg",
+      "isTrending": true,
+      "comingSoon": false
+    },
+    {
+      "slug": "movie_2",
+      "title": "Inception",
+      "description_short": "A thief who steals corporate secrets through dream-sharing technology.",
+      "description_long": "Dom Cobb is a skilled thief who steals secrets from deep within the subconscious during the dream state. Offered a chance to have his criminal record erased, Cobb must accomplish the impossible — inception, planting an idea into someone's mind.",
+      "rating": "8.8",
+      "type": "Action / Sci-Fi",
+      "img": "/images/inception1.jpg",
+      "isTrending": false,
+      "comingSoon": false
+    },
+    {
+      "slug": "movie_3",
+      "title": "Avatar 3",
+      "description_short": "The upcoming next chapter in the journey of Jake Sully and Neytiri.",
+      "description_long": "The third installment in James Cameron's Avatar saga continues the epic journey of Jake Sully and Neytiri as they face new threats to Pandora. New clans, new worlds, and new conflicts emerge as the Na'vi struggle to protect their home against forces more powerful than ever before.",
+      "rating": null,
+      "type": "Sci-Fi",
+      "img": "/images/avatar3.jpg",
+      "isTrending": false,
+      "comingSoon": true
+    },
+    {
+      "slug": "movie_4",
+      "title": "KPop Demon Hunter",
+      "description_short": "A fierce girl group battles ancient demons using the power of music and martial arts.",
+      "description_long": "In the neon-lit streets of Seoul, five elite K-pop idols lead a double life — by day they dominate the charts, by night they hunt demons that prey on human emotions. Armed with enchanted microphones and centuries-old martial arts, the group must face their most dangerous enemy yet: a demon lord who feeds on the energy of concert crowds. As their fame grows, so does the threat - and the line between performance and survival begins to blur.",
+      "rating": "9.5",
+      "type": "Animation",
+      "img": "/images/kpopdemonhunter.jpg",
+      "isTrending": true,
+      "comingSoon": false
+    },
+    {
+      "slug": "movie_5",
+      "title": "The Lord of The Rings",
+      "description_short": "A young hobbit embarks on a perilous quest to destroy the most powerful ring in Middle-earth.",
+      "description_long": "When the humble hobbit Frodo Baggins inherits the One Ring — a weapon of immense and corrupting power forged by the Dark Lord Sauron — he is thrust into an epic journey across Middle-earth. Accompanied by a fellowship of humans, elves, dwarves, and fellow hobbits, Frodo must navigate treacherous lands, ancient evils, and the growing weight of the Ring's influence on his soul. As dark forces close in from all sides, the fate of every living creature rests on the courage of one small hobbit.",
+      "rating": "7.5",
+      "type": "Fantasy / Adventure",
+      "img": "/images/lordofthering.jpg",
+      "isTrending": false,
+      "comingSoon": false
+    }
+  ]
+}

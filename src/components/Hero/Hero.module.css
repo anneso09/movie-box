@@ -1,0 +1,43 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  left: 80px;
+}
+
+.title {
+  color: #ffffff;
+  font-size:60px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.description {
+  color: #cccccc;
+  font-size: 20px;
+  margin: 0;
+}
+
+.promoted {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
