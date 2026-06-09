@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Hero from "@/components/Hero/Hero";
 import Movies from "@/components/Movies/Movies";
 import myDataJson from "@/data/myData.json";
@@ -6,11 +6,11 @@ import myDataJson from "@/data/myData.json";
 export default function Home() {
   const [movies, setMovies] = useState(myDataJson.movies);
 
-  async function refreshMovies() {
+  const refreshMovies = useCallback(async () => {
     const res = await fetch("/api/movies-list");
     const data = await res.json();
     setMovies(data.movies);
-  }
+  }, []);
 
   return (
     <>

@@ -31,3 +31,15 @@
   font-size: 14px;
   cursor: pointer;
 }
+.searchInput {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 250px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #171717;
+}
