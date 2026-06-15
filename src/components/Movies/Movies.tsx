@@ -3,6 +3,11 @@ import MovieCard from "./MovieCard";
 import MovieModal from "@/components/MovieModal/MovieModal";
 import EditMovieModal from "@/components/MovieModal/EditMovieModal";
 import styles from "./Movies.module.css";
+import Fab from "@mui/material/Fab";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+  //------
 
 type Movie = {
   slug: string;
@@ -23,37 +28,66 @@ type MoviesProps = {
   onMovieDeleted: () => void;
 };
 
-export default function Movies({ movies, onMovieAdded, onMovieEdited, onMovieDeleted }: MoviesProps) {
+  //------
+
+
+export default function Movies({
+  movies,
+  onMovieAdded,
+  onMovieEdited,
+  onMovieDeleted,
+}: MoviesProps) {
+
+  // --- State ---
   const [showModal, setShowModal] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [search, setSearch] = useState("");
+
+
+  // Ref vers l'input recherche, utilisé pour l'autofocus au montage
   const searchRef = useRef<HTMLInputElement>(null);
 
+
+  // Autofocus sur la barre de recherche dès l'affichage de la page
   useEffect(() => {
     searchRef.current?.focus();
   }, []);
 
-  const handleDelete = useCallback(async (slug: string, title: string) => {
-    const confirmed = window.confirm(`Delete "${title}" ?`);
-    if (!confirmed) return;
 
-    const res = await fetch(`/api/movies/${slug}`, { method: "DELETE" });
-    if (res.ok) {
-      onMovieDeleted();
-    }
-  }, [onMovieDeleted]);
+  // useCallback : évite de recréer cette fonction à chaque render
+  // (passée en prop à MovieCard, donc utile pour éviter des re-renders inutiles)
+  const handleDelete = useCallback(
+    async (slug: string, title: string) => {
+      const confirmed = window.confirm(`Delete "${title}" ?`);
+      if (!confirmed) return;
 
+      const res = await fetch(`/api/movies/${slug}`, { method: "DELETE" });
+      if (res.ok) {
+        onMovieDeleted();
+      }
+    },
+    [onMovieDeleted],
+  );
+
+
+  // useMemo : recalcule la liste filtrée seulement si "movies" ou "search" changent
+  // (évite de refiltrer à chaque render, même quand rien n'a changé)
   const filteredMovies = useMemo(() => {
     if (!search) return movies;
-    return movies.filter(m =>
-      m.title.toLowerCase().includes(search.toLowerCase())
+    return movies.filter((m) =>
+      m.title.toLowerCase().includes(search.toLowerCase()),
     );
   }, [movies, search]);
 
+
+
   return (
     <section className={styles.section}>
+
+      {/* --- Header : titre + recherche + bouton ajout --- */}
       <div className={styles.header}>
         <h2 className={styles.title}>Movies</h2>
+
         <input
           ref={searchRef}
           type="text"
@@ -62,8 +96,23 @@ export default function Movies({ movies, onMovieAdded, onMovieEdited, onMovieDel
           onChange={(e) => setSearch(e.target.value)}
           className={styles.searchInput}
         />
-        <button className={styles.addBtn} onClick={() => setShowModal(true)}>+ Create Movie</button>
+
+
+        {/* FAB en position fixe = reste visible même au scroll */}
+        <Fab
+          color="primary"
+          variant="extended"
+          onClick={() => setShowModal(true)}
+          sx={{ position: "fixed", bottom: 16, right: 16 }}
+        >
+          <FontAwesomeIcon icon={faPlus} style={{ marginRight: 8 }} />
+          Create Movie
+        </Fab>
       </div>
+
+
+
+      {/* --- Grille des films --- */}
       <div className={styles.grid}>
         {filteredMovies.map((movie) => (
           <MovieCard
@@ -81,9 +130,16 @@ export default function Movies({ movies, onMovieAdded, onMovieEdited, onMovieDel
           />
         ))}
       </div>
+
+
+      {/* --- Modals : affichées conditionnellement selon le state --- */}
       {showModal && (
-        <MovieModal onClose={() => setShowModal(false)} onSuccess={onMovieAdded} />
+        <MovieModal
+          onClose={() => setShowModal(false)}
+          onSuccess={onMovieAdded}
+        />
       )}
+
       {editingMovie && (
         <EditMovieModal
           movie={editingMovie}

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { myData } from "@/data/myData";
+import myData from "@/data/myData.json";
 import Hero from "@/components/Hero/Hero";
 import MovieDetail from "@/components/MovieDetail/MovieDetail";
 

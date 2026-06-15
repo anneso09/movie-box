@@ -1,5 +1,15 @@
 import { useState } from "react";
-import styles from "./MovieModal.module.css";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
 
 type Movie = {
   slug: string;
@@ -37,6 +47,23 @@ export default function EditMovieModal({ movie, onClose, onSuccess }: EditMovieM
     setForm({ ...form, [target.name]: value });
   }
 
+  // Détermine quelle option radio est actuellement sélectionnée
+  const statusValue = form.isTrending
+    ? "trending"
+    : form.comingSoon
+    ? "comingSoon"
+    : "none";
+
+  // Met à jour les 2 booléens selon l'option choisie (mutuellement exclusif)
+  function handleStatusChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setForm({
+      ...form,
+      isTrending: value === "trending",
+      comingSoon: value === "comingSoon",
+    });
+  }
+
   async function handleSubmit() {
     await fetch(`/api/movies/${movie.slug}`, {
       method: "PUT",
@@ -48,33 +75,31 @@ export default function EditMovieModal({ movie, onClose, onSuccess }: EditMovieM
   }
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2 className={styles.title}>Edit Movie</h2>
+    <Dialog open onClose={onClose}>
+      <DialogTitle>Edit Movie</DialogTitle>
 
-        <input className={styles.input} name="title" value={form.title} onChange={handleChange} placeholder="Title" />
-        <input className={styles.input} name="type" value={form.type} onChange={handleChange} placeholder="Type" />
-        <textarea className={styles.textarea} name="description_short" value={form.description_short} onChange={handleChange} placeholder="Short description" />
-        <textarea className={styles.textarea} name="description_long" value={form.description_long} onChange={handleChange} placeholder="Long description" />
-        <input className={styles.input} name="img" value={form.img} onChange={handleChange} placeholder="Image path" />
-        <input className={styles.input} name="rating" value={form.rating ?? ""} onChange={handleChange} placeholder="Rating" />
+      <DialogContent>
+        <TextField fullWidth margin="normal" label="Title" name="title" value={form.title} onChange={handleChange} />
+        <TextField fullWidth margin="normal" label="Type" name="type" value={form.type} onChange={handleChange} />
+        <TextField fullWidth margin="normal" multiline rows={2} label="Short description" name="description_short" value={form.description_short} onChange={handleChange} />
+        <TextField fullWidth margin="normal" multiline rows={4} label="Long description" name="description_long" value={form.description_long} onChange={handleChange} />
+        <TextField fullWidth margin="normal" label="Image path" name="img" value={form.img} onChange={handleChange} />
+        <TextField fullWidth margin="normal" label="Rating" name="rating" value={form.rating ?? ""} onChange={handleChange} />
 
-        <div className={styles.checkboxRow}>
-          <label>
-            <input type="checkbox" name="isTrending" checked={form.isTrending} onChange={handleChange} />
-            Trending
-          </label>
-          <label>
-            <input type="checkbox" name="comingSoon" checked={form.comingSoon} onChange={handleChange} />
-            Coming Soon
-          </label>
-        </div>
+        <FormControl>
+          <FormLabel>Statut</FormLabel>
+          <RadioGroup row value={statusValue} onChange={handleStatusChange}>
+            <FormControlLabel value="none" control={<Radio />} label="Aucun" />
+            <FormControlLabel value="trending" control={<Radio />} label="Trending" />
+            <FormControlLabel value="comingSoon" control={<Radio />} label="Coming Soon" />
+          </RadioGroup>
+        </FormControl>
+      </DialogContent>
 
-        <div className={styles.actions}>
-          <button className={styles.btnSecondary} onClick={onClose}>Cancel</button>
-          <button className={styles.btnPrimary} onClick={handleSubmit}>Save</button>
-        </div>
-      </div>
-    </div>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained">Save</Button>
+      </DialogActions>
+    </Dialog>
   );
 }

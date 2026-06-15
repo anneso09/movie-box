@@ -1,5 +1,15 @@
 import { useState } from "react";
-import styles from "./MovieModal.module.css";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import TextField from "@mui/material/TextField";
 
 type MovieModalProps = {
   onClose: () => void;
@@ -18,7 +28,26 @@ export default function MovieModal({ onClose, onSuccess }: MovieModalProps) {
     comingSoon: false,
   });
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  // Détermine quelle option radio est actuellement sélectionnée
+  const statusValue = form.isTrending
+    ? "trending"
+    : form.comingSoon
+      ? "comingSoon"
+      : "none";
+
+  // Met à jour les 2 booléens selon l'option choisie (mutuellement exclusif)
+  function handleStatusChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setForm({
+      ...form,
+      isTrending: value === "trending",
+      comingSoon: value === "comingSoon",
+    });
+  }
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
     const target = e.target as HTMLInputElement;
     const value = target.type === "checkbox" ? target.checked : target.value;
     setForm({ ...form, [target.name]: value });
@@ -35,33 +64,97 @@ export default function MovieModal({ onClose, onSuccess }: MovieModalProps) {
   }
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2 className={styles.title}>Add a Movie</h2>
+    <Dialog open onClose={onClose}>
+      <DialogTitle>Add a Movie</DialogTitle>
 
-        <input className={styles.input} name="title" placeholder="Title" onChange={handleChange} />
-        <input className={styles.input} name="type" placeholder="Type (ex: Sci-Fi)" onChange={handleChange} />
-        <textarea className={styles.textarea} name="description_short" placeholder="Short description" onChange={handleChange} />
-        <textarea className={styles.textarea} name="description_long" placeholder="Long description" onChange={handleChange} />
-        <input className={styles.input} name="img" placeholder="Image path (ex: /images/monfilm.jpg)" onChange={handleChange} />
-        <input className={styles.input} name="rating" placeholder="Rating (ex: 8.5)" onChange={handleChange} />
+      <DialogContent>
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Title"
+          name="title"
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Type (ex: Sci-Fi)"
+          name="type"
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          multiline
+          rows={2}
+          label="Short description"
+          name="description_short"
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          multiline
+          rows={4}
+          label="Long description"
+          name="description_long"
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Image path (ex: /images/monfilm.jpg)"
+          name="img"
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Rating (ex: 8.5)"
+          name="rating"
+          onChange={handleChange}
+        />
 
-        <div className={styles.checkboxRow}>
-          <label>
-            <input type="checkbox" name="isTrending" onChange={handleChange} />
-            Trending
-          </label>
-          <label>
-            <input type="checkbox" name="comingSoon" onChange={handleChange} />
-            Coming Soon
-          </label>
-        </div>
+        <FormControl>
+          <FormLabel>Statut</FormLabel>
+          <RadioGroup row value={statusValue} onChange={handleStatusChange}>
+            <FormControlLabel value="none" control={<Radio />} label="Aucun" />
+            <FormControlLabel
+              value="trending"
+              control={<Radio />}
+              label="Trending"
+            />
+            <FormControlLabel
+              value="comingSoon"
+              control={<Radio />}
+              label="Coming Soon"
+            />
+          </RadioGroup>
+        </FormControl>
+      </DialogContent>
 
-        <div className={styles.actions}>
-          <button className={styles.btnSecondary} onClick={onClose}>Cancel</button>
-          <button className={styles.btnPrimary} onClick={handleSubmit}>Submit</button>
-        </div>
-      </div>
-    </div>
+      <DialogActions>
+        <Button
+          onClick={onClose}
+          sx={{
+            bottom: 8,
+            right: 8,
+          }}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{
+            bottom: 8,
+            right: 8,
+          }}
+        >
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
